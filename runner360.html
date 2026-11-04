@@ -300,6 +300,7 @@ function testUrl(url){   /* Pannellum 과 같은 경로(XHR → Blob URL → Ima
 function chooseMode(){
   var first=ORDER[0],u1=null;
   if(window.__forceMode){mode=window.__forceMode;return Promise.resolve();}   /* 시험용 */
+  try{var gc=document.createElement('canvas'),g=gc.getContext('webgl')||gc.getContext('experimental-webgl');var gm=g?g.getParameter(g.MAX_TEXTURE_SIZE):0;if(gm&&gm<4096){window.__gmax=gm;mode='canvas';return Promise.resolve();}}catch(e){}
   try{u1=URL.createObjectURL(makeBlob(first));}catch(e){}
   return (u1?testUrl(u1):Promise.resolve(false)).then(function(ok){
     if(ok){mode='blob';urls[first]=u1;return;}
@@ -314,7 +315,7 @@ function fillUrls(){
 }
 function buildCanvases(){
   if(!window.createImageBitmap){return Promise.reject(new Error('no createImageBitmap'));}
-  var maxW=isTouch?2048:3072;
+  var maxW=isTouch?2048:3072;if(window.__gmax){maxW=Math.min(maxW,window.__gmax);}
   return Promise.all(ORDER.map(function(id){
     return createImageBitmap(makeBlob(id)).then(function(bm){
       var w=Math.min(bm.width,maxW),h=Math.round(w*bm.height/bm.width),c=document.createElement('canvas');
@@ -507,10 +508,10 @@ function start(){
   viewer.on('load',function(){
     loadCount++;clearTimeout(wd);firstLoaded=true;elVeil.className='';elErr.style.display='none';
     setTimeout(unlock,80);
-    if(IMGS){IMGS=null;}   /* 로딩 성공 후 원본 문자열 해제(메모리) */
+       /* 로딩 성공 후 원본 문자열 해제(메모리) */
   });
   viewer.on('scenechange',function(id){curId=id;refreshUi();});
-  viewer.on('error',function(m){(window.__errlog=window.__errlog||[]).push(String(m));if(!firstLoaded){onViewerFail();}else{showErr(String(m));}});
+  viewer.on('error',function(m){(window.__errlog=window.__errlog||[]).push(String(m));if(!firstLoaded||(mode!=='canvas'&&!triedCanvas&&/한도|limit|texture/i.test(String(m)))){onViewerFail();}else{showErr(String(m));}});
   clearTimeout(wd);wd=setTimeout(function(){if(!firstLoaded){onViewerFail();}},15000);
   if(!mini.svg){buildMini();setInterval(updateCone,60);}
   refreshUi();

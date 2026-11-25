@@ -23,14 +23,16 @@ button.on{background:var(--acc);color:#111}
 #menu button{display:block;width:100%;text-align:left;border-radius:8px;padding:6px 8px;margin:1px 0;background:transparent}
 #menu button:hover{background:rgba(255,255,255,.12)}
 #menu button.cur{background:var(--acc);color:#111}
-#map{position:fixed;right:10px;bottom:10px;width:min(12vw,126px);background:var(--chip);border-radius:10px;padding:6px;z-index:5}
-#map.big{width:min(94vw,980px)}
+#map{position:fixed;right:10px;bottom:10px;width:min(12vw,126px);max-width:calc(100vw - 20px);max-height:calc(100vh - 20px);display:flex;flex-direction:column-reverse;background:var(--chip);border-radius:10px;padding:6px;z-index:5}
+#map.big{width:fit-content;max-width:min(94vw,980px)}
 #map.hide #mapbox{display:none}
-#maph{display:flex;gap:4px;align-items:center;margin-bottom:5px}
-#maph button{padding:3px 9px;font-size:12px}
+#maph{display:flex;gap:4px;align-items:center;margin-top:5px;flex-shrink:0}
+#maph button{padding:3px 9px;font-size:12px;white-space:nowrap}
 #maph .sp{margin-left:auto}
-#mapbox{position:relative;line-height:0}
-#mapbox img{width:100%;display:block;border-radius:6px}
+#mapbox{position:relative;line-height:0;align-self:center;max-width:100%}
+#mapbox img{width:100%;max-height:calc(100vh - 64px);display:block;border-radius:6px}
+#map.hide #maph{margin-top:0}
+#map.big #mapbox img{width:auto;max-width:100%;max-height:calc(100vh - 64px);height:auto}
 .dot{position:absolute;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:#fff;border:2px solid #333;cursor:pointer;padding:0}
 .dot:hover{transform:scale(1.35)}
 .dot.cur{background:var(--acc);border-color:#fff;width:16px;height:16px;margin:-8px 0 0 -8px;z-index:2}
@@ -42,7 +44,7 @@ button.on{background:var(--acc);color:#111}
 .kd-hs b{position:absolute;left:50%;top:42px;transform:translateX(-50%);padding:2px 8px;border-radius:9px;background:var(--chip);color:#fff;font-weight:400;font-size:12px;white-space:nowrap}
 .kd-hs:hover i{transform:scale(1.12)}
 #msg{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);padding:10px 16px;border-radius:12px;background:var(--chip);display:none;z-index:9}
-@media(max-width:640px){#map{width:19vw}#menu{width:70vw}#btnfs{display:none}#cur small{display:none}}
+@media(max-width:640px){#map{width:19vw}#map.big{width:fit-content;max-width:calc(100vw - 20px)}#menu{width:70vw}#btnfs{display:none}#cur small{display:none}}
 </style></head><body>
 <div id="pano"></div>
 <div id="top"><div id="brand">케이디자인랩</div><div id="cur"></div>

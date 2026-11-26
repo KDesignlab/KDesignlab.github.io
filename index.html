@@ -95,4 +95,5 @@ nav ul a{color:inherit;text-decoration:none}nav ul a:hover{color:var(--navy)}htm
 <script>(function(){var m=document.getElementById('cm');if(!m)return;function o(e){e.preventDefault();m.classList.add('on')}function c(){m.classList.remove('on')}var b=document.querySelectorAll('#contact a.btn');for(var i=0;i<b.length;i++){b[i].removeAttribute('target');b[i].setAttribute('href','#contact');b[i].addEventListener('click',o)}document.getElementById('cmx').addEventListener('click',c);m.addEventListener('click',function(e){if(e.target===m)c()});document.addEventListener('keydown',function(e){if(e.key==='Escape')c()})})();</script>
 <div class="w"><footer><span>© 케이디자인랩</span><span>Interior Design · 2D · 3D · 360° Tour</span></footer></div>
 
+<script>function loadTour(el){if(!el||el.dataset.loaded)return;el.dataset.loaded='1';var s=el.getAttribute('data-src'),t=el.getAttribute('data-title')||'360° 투어';if(!s)return;var f=document.createElement('iframe');f.src=s;f.title=t;f.allow='fullscreen';f.setAttribute('allowfullscreen','');f.style.cssText='width:100%;height:100%;border:0;display:block';el.innerHTML='';el.appendChild(f);}</script>
 <!-- r2 -->
